@@ -1,0 +1,736 @@
+Download R command line.
+www.r-project.org
+
+Download R Studio.
+www.rstudio.com
+
+Create new R script from edit option.
+Clear Console: Ctrl + L
+
+# for commenting. No multiline comment.
+Select multiple lines. shift+ctrl+c to comment
+
+Basic calculation:
+Displays everything in a vector. R is case sensitive.
+8 + 5 #press ctrl+enter in rscript window.
+1:250 #displays 1 to 250.
+print("Hello World")
+
+x <- 1:5 #Put the numbers 1-5 in a vector variable x
+Above output shows in workspace in top right corner.
+x #Displays the values in x.
+
+y <- c(6,7,8,9,10) #Puts the numbers 6-10 in y
+a <- b <- c <- 3 #Multiple assignments.
+
+x + y #Adds corresponding elements of x and y
+
+**************************************************************************
+
+Vector and Scalar Matrix.
+A scalar has only magnitude (size): values like 3.044, -7 and 2½
+Distance, speed, time, temperature, mass, length, area, volume, 
+density, charge, pressure, energy, work and power are all scalars.
+
+A vector has magnitude and direction.
+Displacement, velocity, acceleration, force and momentum are all vectors.
+
+And when we include matrices we get this interesting pattern:
+
+A scalar is a number, like 3, -5, 0.368, etc,
+A vector is a list of numbers (can be in a row or column),
+A matrix is an array of numbers (one or more rows, one or more columns).
+
+Scalar : 24
+Vector : [2 -8 7]
+Matrix : [6 4 24]
+		 [1 -9 8] 
+
+Matrix multiplication: rows X columns
+
+Vectors are generally created using the c() function.
+Since, a vector must have elements of the same type, this function will try 
+and coerce elements to the same type, if they are different.
+
+A vector having all elements of the same type is called atomic vector 
+but a vector having elements of different type is called list.
+x <- list("a" = 2.5, "b" = TRUE, "c" = 1:3)
+
+**************************************************************************
+
+x * 2 #multiplies each vector element by 2.
+
+#Google's R Style Guide.
+browseURL("http://google")
+
+#clean up
+rm(x) #remove an object
+rm(a, b) #remove more than one
+rm(list = ls()) #clear entire workspace.
+
+CRAN: comprehensive R archive network
+browseURL("http://cran.r-project.org/web/views/")
+browseURL("http://crantastic.org/")
+
+library() #shows currently installed packages.
+search() #shows packages currently loaded.
+install.packages("ggplot2") #downloads package from CRAN and installs
+library("ggplot2") #Make package available
+require("ggplot2") #preferred for loading in functions
+
+#Help. Use question mark "?"
+?install.packages
+
+library(help = "ggplot2") #Brings up documentation
+vignette(package = "grid") #Brings up list of vignettes(examples) in editor
+
+?vignette
+browseVignettes(package = "grid") #Opens webpage with hyperlinks help pdfs
+vignettes() #Shows vignettes installed for current installed packages
+
+update.packages() #Updates packages
+detach("package:ggplot2", unload = TRUE) #Unload package
+remove.packages("psytabs") #deletes it
+
+?datasets 
+library(help = "datasets") #lists datasets available
+
+#To see a list of available packages
+data()
+?airmiles #Information on specific dataset
+
+#To load a dataset from package into workspace
+data(airmiles)
+airmiles #To see contents of the dataset
+str(airmiles) #To see the structure
+view(anscombe) #Spreadsheet view
+
+**************************************************************************
+
+#manually entering data
+x1 <- 0:10
+x1 #Prints
+x2 <- 10:0
+x3 <- seq(10)
+x4 <- seq(30, 0, by = -3) #counts down by 3
+x5 <- c(5, 4, 1, 6) #concatenate or combine
+x6 <- scan() #enter manually on prompt. hit enter twice to finish
+ls() #List objects in workspace viewer
+
+#Importing data
+trends.txt <- read.table("path to file"), header = TRUE, sep = "\t")  #trends.txt is an object
+str(trends.txt) #Structure
+view(trends.txt) #View data in workspace
+trends.csv <- read.csv("path to csv", header= TRUE) #No delimiter req
+
+**************************************************************************
+
+#Converting tabular data to row data
+?UCBAdmissions  #shows Simpsons paradox for gender discrimination
+plot(UCBAdmissions)
+#Get marginal frequencies from table
+margin.table(UCSAdmissions, 1) #Admit
+margin.table(UCSAdmissions, 2) #Gender
+margin.table(UCSAdmissions, 3) #Dept
+margin.table(UCSAdmissions) #Total
+
+#Save marginals as new table
+admit.dept <- margin.table(UCSAdmissions, 3) #Dept
+barplot(admit.dept)
+admit.dept #Show frequencies
+prop.table(admit.dept) #Show as proportions
+round(prop.table(admit.dept), 2) #Round off proportions
+round(prop.table(admit.dept), 2) * 100 #Show as percentage
+
+**************************************************************************
+
+#Go from table to one row per case
+admit1 <- as.data.frame.table(UCBAdmissions) #Coerces to data frame
+admit2 <- lapply(admit1, function(x)rep(x, admit1$Freq)) #repeats each row by freq
+admit3 <- as.data.frame(admit2) #converts the list back to data frame
+admit4 <- admit3[, -4] #Removes 4th column
+admit4[1:10, ] #View first 10 rows 
+
+**************************************************************************
+
+#Working with color
+x = c(12,4,21,17,13,9)
+barplot(x)
+?colors
+colors() #List of color names
+barplot(x, col = "slategray3")
+barplot(x, col = colors() [102]) #Using color index
+?rgb
+?col2rgb
+col2rgb("navyblue") #Yields(0,0,128)
+barplot(x, col = rgb(.54,.0,.0)) #Colors in RGB Triplets
+barplot(x, col = "#FFEBCD") #Colors in hexadecimal
+barplot(x, col = c("red","blue")) #Colors will cycle
+
+#Palettes
+?palettes
+help(package=colorspace)
+palette()
+barplot(x, col = rainbow(6)) #rainbow palette
+barplot(x, col = heat.colors(6)) #heat palette
+
+**************************************************************************
+
+#R-Color Brewer
+browseURL("http://colorbrewer2.org/")
+install.packages("RColorBrewer") #Install it
+require("RColorBrewer") #Load it
+display.brewer.all() #Displays all palettes in brewer
+display.brewer.pal(8, "Accent")
+blues <- brewer.pal(6, "Blues")
+barplot(x, col = blues)
+
+**************************************************************************
+
+#Creating bar charts for categorical variables
+?plot
+require("datasets")
+?chickwts 
+chickwts #Look at data
+data(chickwts) #Load into workspace
+plot(chickwts$feed) #Generix xy Plot
+feeds <- table(chickwts$feed) #Create feeds table object
+feeds
+barplot(feeds)
+
+# TO put bars in descending order
+barplot(feeds[order(feeds, decreasing = TRUE)])
+
+#Customize the chart using parameters
+par(oma = c(1, 1, 1, 1)) #Set outside margin(oma):bottom,left,top,right
+par(mar = c(4, 5, 2, 1)) #Set plot margin(mar)
+barplot(feeds[order(feeds)],
+	horiz = TRUE,
+	las = 1, #las gives orientation of axis label
+	col = c("beige","bisque1"),
+	border = NA, #No borders on bars
+	main = "Frequencies of different feeds \n in chickwts",
+	xlab = "Number of chicks")
+
+**************************************************************************
+
+#Creating pie charts for categorical variables
+require("datasets")
+data(chickwts)
+feeds <- table(chickwts$feed)
+feeds
+pie(feeds) #Cretae pie charts using defaults
+?pie
+
+#Modify pie chart
+pie(feeds[order(feeds, decreasing = TRUE)],
+	init.angle = 90, #Starts as 12 o'clock instead of 3
+	clockwise = TRUE, #Default is false
+	col = c("seashell","lightpink"),
+	main = "Pie chart of feeds from chickwts")
+
+#Problem with pie chart is pie shapes cannot be distuinguished
+pie.a <- c(22,14,18,20,14,12)
+pie.b <- c(20,18,16,18,16,12)
+pie.c <- c(12,14,20,18,14,12)	
+
+oldpar <- par() #Stores old graphical parameters
+par(mfrow = c(1,3), # Num of rows and cols
+	cex.main = 3) #Main title 3x bigger
+colors <- c("grey98","","","","","")	
+
+#Three pie charts side by side
+#Is the green slice or blue slice bigger?
+pie(pie.a, main = "Pie A", col = colors)
+pie(pie.b, main = "Pie B", col = colors)
+pie(pie.c, main = "Pie B", col = colors)
+
+#Three bar charts side by side
+#Which bar is bigger
+barplot(pie.a, main = "Bar A", col = colors)
+barplot(pie.b, main = "Bar B", col = colors)
+barplot(pie.c, main = "Bar B", col = colors)
+
+par(oldpar) #Restore old graphical parameter
+
+**************************************************************************
+
+#Creating histogram for quantitative variables
+require("datasets")
+?lynx
+data(lynx)
+hist(lynx)
+
+h <- hist(lynx, #Save histogram as object)
+			breaks = 11, #"Suggests" 11 bins
+			#breaks = seq(0, 7000, by = 100),
+			#breaks = c(0, 100, 300, 500, 3000, 3500, 7000),
+			freq = FALSE,
+			col = "thistle1", #Or use: col = colors() [626]
+			main = "Histogram of annual canadian lynx"
+			xlab = "Number of lynx trapped")
+
+#Normal curve			
+# IF freq = false, this will draw normal distribution
+curve(dnorm(x, mean = mean(lynx), sd = sd(lynx)),
+				col = "thistle4",
+				lwd = 2,
+				add = TRUE)
+?curve
+
+**************************************************************************
+
+#Creating box plots for quantitative variables
+require("datasets")
+?USJudgeRatings
+USJudgeRatings
+data(USJudgeRatings)
+
+boxplot(USJudgeRatings$RTEN) #Shows quartile range
+?boxplot
+
+boxplot(USJudgeRatings$RTEN,
+		horizontal = TRUE,
+		las = 1, #Make all labels horizontal
+		notch = TRUE, #Notches for CI for median
+		ylim = c(0, 10), #Specify range on Y axis
+		col = "slategray3", # R's named colors (n=657)
+		col = colors() [602], #R's color numbers
+		col = "#9FB6CD", #Hex codes for RBG
+		col = rgb(159, 182, 205, max = 255), #RGB triplets with max specified
+		boxwex = 0.5, #Width of the box as proportion of original
+		whisklty = 1, #Whisker line type; 1=solid line
+		outpch = 16, #Symbols of outliners; 16 = filled circle
+		outcol = "slategray3",
+		main = "Lawyers' ratings of state judges",
+		xlab = "Lawyers' ratings"
+		)
+#Multiple boxplot ,remove $RTEN to include all		
+boxplot(USJudgeRatings,
+		horizontal = TRUE,
+		las = 1, #Make all labels horizontal
+		notch = TRUE, #Notches for CI for median
+		ylim = c(0, 10), #Specify range on Y axis
+		col = "slategray3", # R's named colors (n=657)
+		col = colors() [602], #R's color numbers
+		col = "#9FB6CD", #Hex codes for RBG
+		col = rgb(159, 182, 205, max = 255), #RGB triplets with max specified
+		boxwex = 0.5, #Width of the box as proportion of original
+		whisklty = 1, #Whisker line type; 1=solid line
+		outpch = 16, #Symbols of outliners; 16 = filled circle
+		outcol = "slategray3",
+		main = "Lawyers' ratings of state judges",
+		xlab = "Lawyers' ratings"
+		)
+		
+**************************************************************************
+
+#Overlaying multiple plots
+require("datasets")
+?swiss
+swiss
+str(swiss)
+data(swiss)
+fertility <- swiss$Fertility
+
+#Run Previous command Shift+Ctrl+p
+		
+#Plot 1: create histogram
+#Plot 2: create normal curve
+#Plot 3 & 4: kernel density lines (if prob = TRUE)
+lines(density(fertility),col = "blue")
+lines(density(fertility, adjust = 3),col = "darkgreen")
+
+#Plot 5: Rug (Line plot under histogram)
+rug(fertility, col = "red")
+
+**************************************************************************
+#Saving Images
+
+#Export as png image
+png(filename="path/abc.png", #Open Device
+	width = 888,
+	height = 571) #In Pixels
+par(oma = c(1,1,1,1))
+par(mar = c(4,5,2,1))
+#Barplot Code here
+#..............#
+dev.off() Close device
+
+#Export as pdf
+png(filename="path/abc.pdf", #Open Device
+	width = 9,
+	height = 6) #In Inches
+par(oma = c(1,1,1,1))
+par(mar = c(4,5,2,1))
+#Barplot Code here
+#..............#
+dev.off() Close device
+
+**************************************************************************
+#Statistics in one variable
+#Calculating frequencies
+
+#Data is the number of hits in million for each word in google
+groups <- c(rep("blue", 3990),
+			rep("red", 4140),
+			rep("orange", 1890),
+			rep("green", 3770),
+			rep("purple", 855))
+
+groups.t1 <- table(groups) #creates frequency table
+groups.t1 #print
+groups.t2 <- sort(groups.t1, decreasing = TRUE) #sorts
+groups.t2 #print
+prop.table(groups.t2) #Proportions
+round(prop.table(groups.t2), 2) #2 decimal places
+round(prop.table(groups.t2), 2) * 100 #percentage
+
+#Calculate descriptives
+require("datasets")
+?cars
+cars
+str(cars)
+data(cars)
+summary(cars$speed) #Summary for one variable;quartiles
+summary(cars) #Summary of entire table
+
+#John Tukey's five-number summary; 
+#min,lower-hinge,median,upper-hinge,max labels
+fivenum(cars$speed)
+
+#Boxplot stats: hinges, n, confidence interval (CI), outliers
+boxplot.stats(cars$speed)
+
+#from the package psych
+help(package = "psych")
+install.package("psych")
+require("psych")
+describe(cars) #psych function
+
+**************************************************************************
+#Using a single proportion Hypothesis test and confidence interval
+#Inferensal statistics
+prod.test(98, 162) #98 wins out of 162 games
+
+# One-tailed test with 90% CI
+prod.test(98, 162, alt = "greater", conf.level = .90)
+
+#Using a single mean Hypothesis test and confidence interval
+?quakes
+quakes[1:5, ] #See the first 5 lines of data
+mag <- quakes$mag
+mag[1:5]
+
+#Use t-test for one-sample
+#default t-test (compares mean to 0)
+t.test(mag) 
+
+#One-sided t-test w/mu = 4
+t.test(mag, alternative = "greater", mu = 4)
+
+**************************************************************************
+#Using a single categorical variable One sample chi-square test
+?HairEyeColor
+HairEyeColor
+margin.table(HairEyeColor, 2) #Get marginal frequencies for eye color
+eyes <- margin.table(HairEyeColor, 2)
+eyes
+round(prop.table(eye), 2)
+#Use Pearson's chi-squared test
+#Need one-dimensional goodness-of-fit test
+#Default test (assume equal distribution)
+chi <- chisq.test(eyes)
+chi #Check results
+
+#Numbers based on proportions
+chi2 <- chisq.test(eyes, p = c(.41, .32, .15, .12))
+
+**************************************************************************
+#Examining robust statistics for univariate analyses
+?state.area
+data(state.area) #gets error message
+area <- state.area #vector
+area
+hist(area)
+boxplot(area)
+boxplot.stats(area)
+summary(area)
+
+#Robust methods for describing center:
+mean(area) #NOT robust
+median(area)
+mean(area, trim =.05) # 5% from each end (10% total)
+
+#Robust methods for describing variation
+sd(area) #Not robust
+mad(area) #Median absolute deviation
+IQR(area) #interquartile range (can select many methods)
+fivenum(area) #Turkey's hinges (similar to quartiles)
+rm(list = ls()) #Clean
+
+**************************************************************************
+#Modifying data:
+#Examining outliers
+#outlier has proportions < 10%
+OS.hi <- subset(OS, Proportions > 0.1)
+
+require("datasets")
+data(rivers)
+hist(rivers)
+boxplot(rivers, horizontal=TRUE)
+boxplot.stats(rivers)
+rivers.low <- rivers[rivers < 1210] #remove outliers
+boxplot(rivers.low, horizontal = TRUE)
+
+#Transforming variables:
+?islands
+islands
+hist(islands,breaks = 16)
+boxplot(islands)  # not proper, so transform
+#Zscores
+islands.z <- scale(islands) #mean=0, sd =1
+islands.z #makes matrix
+islands.z <- as.numeric(islands.z) #converts from matrix to numeric
+#log transformations
+islands.ln <- log(islands) #natural log (base=e)
+hist(islands.ln)
+#ranking
+islands.rank1 <- rank(islands)
+hist(islands.rank1)
+boxplot(islands.rank1)
+#Dichotomizing
+continent <- ifelse(islands>1000, 1, 0)
+
+#Create composite variables:
+Vectors V1 and V2 when multiplied gives very high sd
+but when V1 and V2's mean is computed, the summary remains 
+the same more or less.
+v1 <- rnorm(1000000)
+summary(v1)
+v2 <- rnorm(1000000)
+summary(v2)
+v.mean <- ((v1 + v2) /2)
+summary(v.mean)
+v.prod <- (v1 * v2)
+summary(v.prod)
+#Kurtosis
+install.packages("psych")
+require("psych")
+kurtosi(v1)
+kurtosi(v2)
+kurtosi(v.mean)
+kurtosi(v.prod)
+
+#Coding missing data:
+#find index of value 'NA'
+which(is.na(v)) #v is the vector containing NA
+mean(v, na.rm = T) #tell mean that we have a missing value
+#if exists NA, replace it with 0 else as is
+x2 <- ifelse(is.na(x1),0,x1)
+good packages: mi, mice, imputation
+
+**************************************************************************
+#Working with the data file:
+#Selecting Cases:
+data(mtcars)
+mtcars
+mean(mtcars$qsec[mtcars$cyl == 8])
+mean(mtcars$mpg[mtcars$hp > median(mtcars$hp)])
+mtcars[mtcars$cyl == 8 & mtcars$carb >= 4, ]
+
+#Analyzing by subgroup:
+#find mean of petal width for each 3 species
+aggregate(iris$Petal.Width ~ iris$Species, FUN=mean)
+#find mean of petal width and length for each 3 species
+aggregate(cbind(iris$Petal.Width, iris$Petal.Length) ~ iris$Species, FUN=mean)
+
+#Merging Files:
+data(longley)
+a1 <- longley[1:14,1:6]
+a2 <- longley[1:14,6:7] #Column 6 is common "Year"
+write.table(a1, "a1.txt", sep="\t")
+write.table(a2, "a2.txt", sep="\t")
+
+a1t <- read.table("a1.txt", sep="\t")
+a2t <- read.table("a2.txt", sep="\t")
+amerge <- merge(a1t, a2t, by = "Year")
+
+alldata <- rbind(a,b) #rowbind. stack vertically.union
+
+**************************************************************************
+#Charts for Associations:
+#Creating bar charts of group means
+data <- t(df[-1]) #transpose df after removing column 1
+#Needed for barplot in case of categorical values A,B...
+
+#Creating grouped box plots
+require(MASS)
+?painters
+#draw boxplots of outcome (expression) by group (school)
+boxplot(painters$Expression ~ painters$School) #group by school
+col = brewer.pal(8, "Pastel2") #eight types of random colors
+names = c("","","") #use inside plots. synonymous to xticks in python
+require("RColorBrewer")
+boxplot(painters$Expression ~ painters$School,
+		col = brewer.pal(8, "Pastels2"),
+			names = c("A","B","C","D","E","F","G","H",)
+			boxwex = 0.5, #Width of box
+			whisklty = 1, #Whisker line type;1=solid line
+			staplelty = 0, #Staple type; 0=none
+			outpch=16, Outlier symbol; 16=filled circle
+			outcol=brewer.pal(8, "Pastels2"), #outlier color
+)
+
+#Creating scatter plots
+plot(cars,
+	pch = 16,
+	col = "gray",
+	main = "Speed vs Stopping distance"
+	xlab = "Speed MPH"
+	ylab = "Stopping Dist"
+	#linear regression line
+	abline(lm(cars$dist ~ cars$speed),
+		col = "darkred",
+		lwd = 2)
+	#locally weighted scatterplot smoothing
+	lines(lowess(cars$speed, cars$dist))
+		col="blue",
+		lwd = 2)
+	)
+	
+scatterplot(cars$dist ~ cars$speed,
+	pch = 16,
+	col = "gray",
+	main = "Speed vs Stopping distance"
+	xlab = "Speed MPH"
+	ylab = "Stopping Dist"
+	)	
+
+**************************************************************************
+#Statistics for Associations:
+#Calculating correlation
+data(swiss)
+cor(swiss) correlation matrix
+cor.test(swiss$Fertility, swiss$Education) #Test one pair. gives r, hypothesis and confidence interval
+
+#install Hmisc package to get p values in matrix
+install.packages("Hmisc")
+require("Hmisc")
+rcorr(as.matrix(swiss)) #coerces dataframe to matrix and gives p values
+
+#Comparing bivariate regression
+data(trees)
+hist(trees$Height)
+hist(trees$Girth)
+plot(trees$Girth, trees$Height)
+abline(lm(trees$Height ~ trees$Girth))
+#Linear regression model
+reg1 <- lm(Height ~ Girth, data = trees)
+reg1
+summary(reg1)
+#Confidence interval
+confint(reg1)
+#Predict values
+predict(reg1) #Predicted height based on girth
+predict(reg1, interval = "prediction") #CI for predicted height
+
+#Regression diagnostics
+lm.influence(reg1)
+influence.measures(reg1)
+
+#Comparing means with t-test
+sleep
+sd <- sleep[, 1:2]
+t.test(extra ~ group, data = sd)
+t.test(extra ~ group, data = sd,
+	   alternative = "less", #one tailed
+	   conf.level = 0.80
+	   )
+#Create two random groups from normal curve
+x <- rnorm(30, mean =20, sd=5)
+y <- rnorm(30, mean =22, sd=5)
+t.test(x,y)	   
+
+#Comparing paired means paired t-test
+t1 <- rnorm(50, mean = 12, sd = 6) #Time1
+dif <- rnorm(50, mean = 6, sd = 12) #Difference
+t2 <- t1 + dif #time 2
+#Parallel coordinate plot . use MASS
+require("MASS")
+parcoord(pairs, var.label = TRUE)
+#Paired t-test (with defaults)
+t.test(t2, t1, paired = TRUE)
+#with options
+t.test(t2, t1,
+	   paired = TRUE,
+	   mu =6 #Specify non-0 null value hypothesis
+	   alternative = "greater", #one tailed
+	   conf.level=0.99)
+
+#Comparing means with a one-factor analysis of variance(ANOVA)
+x1 <- rnorm(30, mean=40, sd=8)
+x2 <- rnorm(30, mean=41, sd=8)
+x3 <- rnorm(30, mean=45, sd=8)
+x4 <- rnorm(30, mean=45, sd=8)	 
+boxplot(x1, x2, x3, x4)
+#combine vectors into a single dataframe
+xdf <- data.frame(cbind(x1, x2, x3, x4))
+summary(xdf)
+#Stack data or normalize
+xs <- stack(xdf)
+#One way anova
+anova1 <- aov(values ~ ind, data = xs)
+anova1
+summary(anova1)
+#post-hoc comparison
+TurkeyHSD(anova1)
+?pairwise.t.test #other post-hoc tests
+?p.adjust #Specific methods
+
+#Comparing proportions (prop-test)
+n5 <- c(rep(100,5))
+x5 <- c(65,60,60,50,45)
+prop.test(x5, n5, conf.level = 0.80)
+
+#Creating cross tabs for categorical variables (chi-squared)
+Titanic
+ftable(Titanic) #Makes Flat table
+#convert table to data frame with one row per observation
+tdf <- as.data.frame(lapply(as.data.frame.table(Titanic),
+function(x)rep(x, as.data.frame.table(Titanic)$Freq)))[, -5]
+#create contingency table
+ttab <- table(tdf$class, tdf$Survived)
+ttab
+#get cell, row, colum % and round off, multiply by 100
+round(prop.table(ttab,1),2) * 100 #row%
+round(prop.table(ttab,2),2) * 100 #column%
+round(prop.table(ttab),2) * 100 #row%
+#Chi-squared
+tchi <- chisq.test(ttab)
+tchi
+#Additional tables
+tchi$observed
+tchi$expected
+tchi$residuals
+tchi$stdres
+
+#Computing robust statistics for bivariate associations
+#Quantile regression
+<too much code to write>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
