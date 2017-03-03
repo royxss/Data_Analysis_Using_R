@@ -59,7 +59,7 @@ RSquared <- SSR/SST
 
 
 # Let's try a larger example
-load("/Users/adam.mcelhinney/Downloads/psub.RData")
+load("/Users/SROY/Downloads/psub.RData")
 head(psub)
 # Data set contains a single annoymized person or household
 # Occupation, education, additional demographic variables versus personal
