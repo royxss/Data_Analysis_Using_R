@@ -7,10 +7,10 @@ library('data.table')
 # "https://data.cityofchicago.org/Public-Safety/Crimes-2015/vwwp-7yr9"
 
 # Let's read in the data set using R's standard CSV reader
-system.time(df.crimes <- read.csv("/Users/adam.mcelhinney/Downloads/Crimes_-_2015.csv", header=TRUE,sep=","))
+system.time(df.crimes <- read.csv("C:\\Users\\SROY\\Documents\\CodeBase\\Datasets\\Crimes_-_2015.csv", header=TRUE,sep=","))
 
 # Let's try using data.table to read in the CSV
-system.time(dt.crimes <- fread("/Users/adam.mcelhinney/Downloads/Crimes_-_2015.csv", header=TRUE,sep=","))
+system.time(dt.crimes <- fread("C:\\Users\\SROY\\Documents\\CodeBase\\Datasets\\Crimes_-_2015.csv", header=TRUE,sep=","))
 
 # WOW! 14x speed-up
 # Note: I personally almost always use fread for reading in CSVs
