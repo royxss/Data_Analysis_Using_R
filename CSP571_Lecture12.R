@@ -3,7 +3,7 @@
 
 # Let's revisit the Titanic data set
 # Download the Titanic data set from Kaggle: https://www.kaggle.com/c/titanic/data
-data <- read.csv('/Users/adam.mcelhinney/Downloads/Titanic/train.csv'
+data <- read.csv('C:\\Users\\SROY\\Documents\\CodeBase\\Datasets\\Titanic\\train.csv'
                  , header= TRUE
                  ,na.strings=c(""))
 
